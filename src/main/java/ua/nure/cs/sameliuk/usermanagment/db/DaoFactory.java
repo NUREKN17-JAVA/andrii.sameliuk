@@ -11,7 +11,14 @@ public class DaoFactory {
     private static final String URL = "connection.url";
     private static final String DRIVER = "connection.driver";
     private static final String HSQLDB_USER_DAO = "ua.nure.cs.sameliuk.usermanagment.db.HsqldbUserDao";
+
     private final Properties properties;
+
+    private static final DaoFactory INSTANCE = new DaoFactory();
+
+    public static DaoFactory getInstance() {
+        return INSTANCE;
+    }
 
     public DaoFactory() {
         this.properties = new Properties();
