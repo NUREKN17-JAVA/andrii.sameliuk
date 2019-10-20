@@ -12,7 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class HsqldbUserDao implements Dao<User> {
+class HsqldbUserDao implements Dao<User> {
 
     private ConnectionFactory connectionFactory;
 
