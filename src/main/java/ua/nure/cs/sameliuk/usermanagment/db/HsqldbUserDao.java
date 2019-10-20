@@ -14,8 +14,7 @@ public class HsqldbUserDao implements Dao<User> {
 
     private final ConnectionFactory connectionFactory;
 
-    public static final String INSERT_QUERY = "INSERT INTO users " +
-            "(firstname, lastname, dateofbirth VALUES (?,?,?))";
+    public static final String INSERT_QUERY = "INSERT INTO users (firstname, lastname, dateofbirth) VALUES (?, ?, ?)";
 
     public HsqldbUserDao(ConnectionFactory factory) {
         connectionFactory = factory;
@@ -28,7 +27,8 @@ public class HsqldbUserDao implements Dao<User> {
             PreparedStatement statement = connection.prepareStatement(INSERT_QUERY);
             statement.setString(1, entity.getFirstName());
             statement.setString(2, entity.getLastName());
-            statement.setDate(3, new Date(entity.getDateOfBirth().getTime()));
+            statement.setDate(3, new Date(entity.getDateOfBirth()
+                                                .getTime()));
             int numberOfRows = statement.executeUpdate();
             if (numberOfRows != 1) {
                 throw new DataBaseException("Number of inserted rows: " + numberOfRows);

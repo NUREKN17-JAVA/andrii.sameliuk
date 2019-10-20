@@ -45,7 +45,7 @@ public class User implements Serializable {
     }
 
     public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+        this.dateOfBirth = (Date) dateOfBirth.clone();
     }
 
     public String getFullName() {
