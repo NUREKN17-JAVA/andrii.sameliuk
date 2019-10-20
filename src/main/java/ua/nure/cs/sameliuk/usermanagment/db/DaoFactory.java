@@ -10,7 +10,7 @@ public class DaoFactory {
     private static final String PASSWORD = "connection.password";
     private static final String URL = "connection.url";
     private static final String DRIVER = "connection.driver";
-    private static final String HSQLDB_USER_DAO = "ua.nure.cs.sameliuk.usermanagment.db.HsqldbUserDao";
+    private static final String HSQLDB_USER_DAO = "dao.UserDao";
 
     private final Properties properties;
 
@@ -43,8 +43,8 @@ public class DaoFactory {
         Dao result = null;
         try {
             Class hsqldbUserDaoClass = Class.forName(properties.getProperty(HSQLDB_USER_DAO));
-            Dao hsqldbUserDao = (Dao) hsqldbUserDaoClass.newInstance();
-            hsqldbUserDao.setConnectionFactory(createConnection());
+            result = (Dao) hsqldbUserDaoClass.newInstance();
+            result.setConnectionFactory(createConnection());
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             throw new ReflectiveOperationException(e);
         }
