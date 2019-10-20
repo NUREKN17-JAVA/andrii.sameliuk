@@ -19,10 +19,7 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
 
     public void testCreate() {
         try {
-            User user = new User();
-            user.setFirstName(FIRST_NAME);
-            user.setLastName(LAST_NAME);
-            user.setDateOfBirth(new Date());
+            User user = getUser();
             assertNull(user.getId());
 
             User userToCheck = hsqldbUserDao.create(user);
@@ -36,9 +33,20 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
         }
     }
 
+    private User getUser() {
+        User user = new User();
+        user.setFirstName(FIRST_NAME);
+        user.setLastName(LAST_NAME);
+        user.setDateOfBirth(new Date());
+        return user;
+    }
+
     public void testFindAll() {
         try {
-            int expectedCollectionSize = 2;
+            User user = getUser();
+            int expectedCollectionSize = hsqldbUserDao.findAll()
+                                                      .size() + 1;
+            hsqldbUserDao.create(user);
             Collection users = hsqldbUserDao.findAll();
             assertNotNull("Collection is null", users);
             assertEquals("Collection size.", expectedCollectionSize, users.size());
@@ -50,6 +58,7 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
 
     @Override
     protected void setUp() throws Exception {
+        super.setUp();
         connectionFactory = new ConnectionFactoryImpl();
         hsqldbUserDao = new HsqldbUserDao(connectionFactory);
     }
