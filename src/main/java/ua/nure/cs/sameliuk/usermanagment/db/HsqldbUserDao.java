@@ -43,7 +43,7 @@ public class HsqldbUserDao implements Dao<User> {
             callableStatement.close();
             statement.close();
             connection.close();
-            return null;
+            return entity;
         } catch (DataBaseException e) {
             throw e;
         } catch (SQLException e) {
