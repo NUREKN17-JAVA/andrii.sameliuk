@@ -1,4 +1,4 @@
-package ua.nure.cs.sameliuk.usermanagment.domain.db;
+package ua.nure.cs.sameliuk.usermanagment.db;
 
 import java.util.Collection;
 
