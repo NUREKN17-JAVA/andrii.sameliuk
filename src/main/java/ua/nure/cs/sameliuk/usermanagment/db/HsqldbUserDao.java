@@ -14,13 +14,16 @@ import java.util.Collection;
 
 public class HsqldbUserDao implements Dao<User> {
 
-    private final ConnectionFactory connectionFactory;
+    private ConnectionFactory connectionFactory;
 
     private static final String CALL_IDENTITY = "call IDENTITY()";
 
     private static final String INSERT_QUERY = "INSERT INTO users (firstname, lastname, dateofbirth) VALUES (?, ?, ?)";
 
     private String FIND_ALL_USERS = "SELECT * FROM users";
+
+    public HsqldbUserDao() {
+    }
 
     public HsqldbUserDao(ConnectionFactory factory) {
         connectionFactory = factory;
@@ -94,5 +97,13 @@ public class HsqldbUserDao implements Dao<User> {
         }
 
         return result;
+    }
+
+    public ConnectionFactory getConnectionFactory() {
+        return connectionFactory;
+    }
+
+    public void setConnectionFactory(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
     }
 }

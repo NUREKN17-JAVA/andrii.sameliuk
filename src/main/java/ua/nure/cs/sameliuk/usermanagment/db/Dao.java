@@ -13,4 +13,6 @@ public interface Dao<T>{
     T find(Long id) throws DataBaseException;
 
     Collection<T> findAll() throws DataBaseException;
+
+    void setConnectionFactory(ConnectionFactory connectionFactory);
 }
