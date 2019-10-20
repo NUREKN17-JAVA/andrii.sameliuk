@@ -22,6 +22,12 @@ class HsqldbUserDao implements Dao<User> {
 
     private String FIND_ALL_USERS = "SELECT * FROM users";
 
+    private final String FIND_BY_ID = "SELECT * FROM USERS WHERE id = ?";
+
+    private final String DELETE_USER = "DELETE FROM USERS WHERE id = ?";
+
+    private final String UPDATE_USER = "UPDATE USERS SET firstname = ?, lastname = ?, dateofbirth = ? WHERE id = ?";
+
     public HsqldbUserDao() {
     }
 
@@ -62,17 +68,73 @@ class HsqldbUserDao implements Dao<User> {
 
     @Override
     public void update(User entity) throws DataBaseException {
+        try {
+            Connection connection = connectionFactory.createConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER);
+            preparedStatement.setString(1, entity.getFirstName());
+            preparedStatement.setString(2, entity.getLastName());
+            preparedStatement.setDate(3, new Date(entity.getDateOfBirth()
+                                                        .getTime()));
+            preparedStatement.setLong(4, entity.getId());
 
+            int insertedRows = preparedStatement.executeUpdate();
+
+            if (insertedRows != 1) {
+                throw new DataBaseException("Number of inserted rows: " + insertedRows);
+            }
+
+            connection.close();
+            preparedStatement.close();
+        } catch (DataBaseException | SQLException e) {
+            throw new DataBaseException(e.toString());
+        }
     }
 
     @Override
     public void delete(User entity) throws DataBaseException {
+        try {
+            Connection connection = connectionFactory.createConnection();
 
+            PreparedStatement statement = connection.prepareStatement(DELETE_USER);
+            statement.setLong(1, entity.getId());
+
+            int removedRows = statement.executeUpdate();
+
+            if (removedRows != 1) {
+                throw new DataBaseException("Number of removed rows: " + removedRows);
+            }
+
+            connection.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public User find(Long id) throws DataBaseException {
-        return null;
+        User user = null;
+        try {
+            Connection connection = connectionFactory.createConnection();
+            PreparedStatement statement = connection.prepareStatement(FIND_BY_ID);
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            user = null;
+            while (resultSet.next()) {
+                user = new User();
+                user.setId(resultSet.getLong(1));
+                user.setFirstName(resultSet.getString(2));
+                user.setLastName(resultSet.getString(3));
+                user.setDateOfBirth(resultSet.getDate(4));
+            }
+            connection.close();
+            statement.close();
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
     @Override
