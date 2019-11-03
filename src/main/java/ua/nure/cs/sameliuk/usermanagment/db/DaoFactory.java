@@ -3,6 +3,11 @@ package ua.nure.cs.sameliuk.usermanagment.db;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * An implementation of factory for data transfer objects.
+ *
+ * @implNote Implemented as Singleton.
+ */
 public class DaoFactory {
 
     private static final String PROPERTIES = "settings.properties";
@@ -16,11 +21,14 @@ public class DaoFactory {
 
     private static final DaoFactory INSTANCE = new DaoFactory();
 
+    /**
+     * Obtains an instance of {@code DaoFactory}.
+     */
     public static DaoFactory getInstance() {
         return INSTANCE;
     }
 
-    public DaoFactory() {
+    private DaoFactory() {
         this.properties = new Properties();
         try {
             properties.load(getClass().getClassLoader()
@@ -39,6 +47,9 @@ public class DaoFactory {
         return new ConnectionFactoryImpl(user, password, url, driver);
     }
 
+    /**
+     * Obtains the DTO.
+     */
     public Dao getDao() throws ReflectiveOperationException {
         Dao result = null;
         try {

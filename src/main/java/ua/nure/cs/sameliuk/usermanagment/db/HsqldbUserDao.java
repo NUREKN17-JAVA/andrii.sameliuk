@@ -12,13 +12,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * An implementation of {@link Dao} for {link User} bean.
+ */
 class HsqldbUserDao implements Dao<User> {
 
     private ConnectionFactory connectionFactory;
 
     private static final String CALL_IDENTITY = "call IDENTITY()";
 
-    private static final String INSERT_QUERY = "INSERT INTO users (firstname, lastname, dateofbirth) VALUES (?, ?, ?)";
+    private static final String INSERT_QUERY
+            = "INSERT INTO users (firstname, lastname, dateofbirth) VALUES (?, ?, ?)";
 
     private String FIND_ALL_USERS = "SELECT * FROM users";
 
@@ -26,11 +30,15 @@ class HsqldbUserDao implements Dao<User> {
 
     private final String DELETE_USER = "DELETE FROM USERS WHERE id = ?";
 
-    private final String UPDATE_USER = "UPDATE USERS SET firstname = ?, lastname = ?, dateofbirth = ? WHERE id = ?";
+    private final String UPDATE_USER
+            = "UPDATE USERS SET firstname = ?, lastname = ?, dateofbirth = ? WHERE id = ?";
 
-    public HsqldbUserDao() {
-    }
-
+    /**
+     * Initializes a {@code HsqldbUserDao}.
+     *
+     * @param factory
+     *         a factory for working with connection to database
+     */
     public HsqldbUserDao(ConnectionFactory factory) {
         connectionFactory = factory;
     }
@@ -107,7 +115,7 @@ class HsqldbUserDao implements Dao<User> {
             connection.close();
             statement.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataBaseException(e);
         }
     }
 
@@ -120,8 +128,7 @@ class HsqldbUserDao implements Dao<User> {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
 
-            user = null;
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 user = new User();
                 user.setId(resultSet.getLong(1));
                 user.setFirstName(resultSet.getString(2));
@@ -132,7 +139,7 @@ class HsqldbUserDao implements Dao<User> {
             statement.close();
             resultSet.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DataBaseException(e);
         }
         return user;
     }
@@ -161,10 +168,7 @@ class HsqldbUserDao implements Dao<User> {
         return result;
     }
 
-    public ConnectionFactory getConnectionFactory() {
-        return connectionFactory;
-    }
-
+    @Override
     public void setConnectionFactory(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
     }

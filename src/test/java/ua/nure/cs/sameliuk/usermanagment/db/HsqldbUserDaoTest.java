@@ -20,10 +20,11 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
     private static final String URL = "jdbc:hsqldb:file:db/usermanagment";
     private static final String DRIVER = "org.hsqldb.jdbcDriver";
     private static final String XML_FILE = "usersDataSet.xml";
+    private static final String TEST_FIRST_NAME = "Sam";
+    private static final String TEST_LAST_NAME = "Smith";
+    private static final String UPDATED_TEST_NAME = "Sam11";
     private HsqldbUserDao hsqldbUserDao;
     private ConnectionFactory connectionFactory;
-
-    private User user;
 
     public void testCreate() {
         try {
@@ -39,16 +40,6 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
         } catch (DataBaseException e) {
             fail(e.toString());
         }
-    }
-
-    private User createUserWithoutID() {
-        User user = new User(null, FIRST_NAME, LAST_NAME, new Date());
-        return user;
-    }
-
-    private User createUserWithID() {
-        User user = new User(ID, FIRST_NAME, LAST_NAME, new Date());
-        return user;
     }
 
     public void testFindAll() {
@@ -67,27 +58,25 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
     }
 
     public void testFind() throws DataBaseException {
-        hsqldbUserDao.create(createUserWithID());
-        User testUser = hsqldbUserDao.find(ID);
-        assertNotNull(testUser);
-        assertEquals(testUser.getFirstName(), user.getFirstName());
-        assertEquals(testUser.getLastName(), user.getLastName());
+        long testUserId = ID + 2;
+        User expectedUser = hsqldbUserDao.create(createUserWithID(testUserId));
+        User actualUser = hsqldbUserDao.find(testUserId);
+        assertNotNull(actualUser);
+        assertEquals(expectedUser.getFirstName(), actualUser.getFirstName());
+        assertEquals(expectedUser.getLastName(), actualUser.getLastName());
     }
 
     public void testDelete() throws DataBaseException {
-        User testUser = createUserWithID();
+        User testUser = createUserWithID(ID);
         hsqldbUserDao.delete(testUser);
         assertNull(hsqldbUserDao.find(ID));
     }
 
     public void testUpdate() throws DataBaseException {
-        String testFirstName = "Sam";
-        String testLastName = "Smith";
-        Date testDateOfBirth = new Date();
-        User testUser = new User(1L, testFirstName, testLastName, testDateOfBirth);
+        User testUser = new User(ID, TEST_FIRST_NAME, TEST_LAST_NAME, new Date());
         hsqldbUserDao.create(testUser);
 
-        testUser.setFirstName("Sam11");
+        testUser.setFirstName(UPDATED_TEST_NAME);
 
         hsqldbUserDao.update(testUser);
         User updatedUser = hsqldbUserDao.find(testUser.getId());
@@ -98,7 +87,6 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
 
     @Override
     protected void setUp() throws Exception {
-        user = createUserWithoutID();
         connectionFactory = new ConnectionFactoryImpl(USER, PASSWORD, URL, DRIVER);
         hsqldbUserDao = new HsqldbUserDao(connectionFactory);
     }
@@ -119,5 +107,15 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
         IDataSet dataSet = new XmlDataSet(getClass().getClassLoader()
                                                     .getResourceAsStream(XML_FILE));
         return dataSet;
+    }
+
+    private static User createUserWithoutID() {
+        User user = new User(null, FIRST_NAME, LAST_NAME, new Date());
+        return user;
+    }
+
+    private static User createUserWithID(long id) {
+        User user = new User(id, FIRST_NAME, LAST_NAME, new Date());
+        return user;
     }
 }
