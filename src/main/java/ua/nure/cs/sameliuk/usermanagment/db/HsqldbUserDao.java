@@ -33,6 +33,9 @@ class HsqldbUserDao implements Dao<User> {
     private final String UPDATE_USER
             = "UPDATE USERS SET firstname = ?, lastname = ?, dateofbirth = ? WHERE id = ?";
 
+    public HsqldbUserDao() {
+    }
+
     /**
      * Initializes a {@code HsqldbUserDao}.
      *
