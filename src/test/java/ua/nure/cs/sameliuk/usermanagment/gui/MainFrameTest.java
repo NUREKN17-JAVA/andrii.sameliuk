@@ -5,6 +5,7 @@ import junit.extensions.jfcunit.JFCTestHelper;
 import junit.extensions.jfcunit.TestHelper;
 import junit.extensions.jfcunit.eventdata.MouseEventData;
 import junit.extensions.jfcunit.finder.NamedComponentFinder;
+import ua.nure.cs.sameliuk.usermanagment.util.Message;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +31,7 @@ public class MainFrameTest extends JFCTestCase {
     @Override
     public void tearDown() throws Exception {
         mainFrame.setVisible(false);
-        getHelper();
+//        getHelper();
         TestHelper.cleanUp(this);
         super.tearDown();
     }
@@ -45,11 +46,23 @@ public class MainFrameTest extends JFCTestCase {
 
     public void testBrowseControls() {
         find(JPanel.class, BROWSE_PANEL_COMPONENT_NAME);
-        find(JTable.class, USER_TABLE_COMPONENT_NAME);
         find(JButton.class, ADD_BUTTON_COMPONENT_NAME);
         find(JButton.class, EDIT_BUTTON_COMPONENT_NAME);
         find(JButton.class, DELETE_BUTTON_COMPONENT_NAME);
         find(JButton.class, DETAIL_BUTTON_COMPONENT_NAME);
+
+        int expectedRowCount = 3;
+        String expectedFirstColumn = Message.getString("id");
+        String expectedSecondColumn = Message.getString("name_label");
+        String expectedThirdColumn = Message.getString("surname_label");
+
+        JTable table = (JTable) find(JTable.class, USER_TABLE_COMPONENT_NAME);
+
+        assertEquals(expectedRowCount, table.getColumnCount());
+
+        assertEquals(expectedFirstColumn, table.getColumnName(0));
+        assertEquals(expectedSecondColumn, table.getColumnName(1));
+        assertEquals(expectedThirdColumn, table.getColumnName(2));
     }
 
     public void testAddUser() {
