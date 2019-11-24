@@ -8,57 +8,56 @@ import java.util.Properties;
  *
  * @implNote Implemented as Singleton.
  */
-public class DaoFactory {
+public abstract class DaoFactory {
 
     private static final String PROPERTIES = "settings.properties";
-    private static final String USER = "connection.user";
-    private static final String PASSWORD = "connection.password";
-    private static final String URL = "connection.url";
-    private static final String DRIVER = "connection.driver";
-    private static final String HSQLDB_USER_DAO = "dao.UserDao";
+    protected static final String HSQLDB_USER_DAO = "dao.UserDao";
+    private static final String DAO_FACTORY = "dao.factory";
 
-    private final Properties properties;
+    protected static Properties properties;
 
-    private static final DaoFactory INSTANCE = new DaoFactory();
+    private static DaoFactory instance;
 
-    /**
-     * Obtains an instance of {@code DaoFactory}.
-     */
-    public static DaoFactory getInstance() {
-        return INSTANCE;
-    }
-
-    private DaoFactory() {
-        this.properties = new Properties();
+    static {
+        properties = new Properties();
         try {
-            properties.load(getClass().getClassLoader()
-                                      .getResourceAsStream(PROPERTIES));
+            properties.load(DaoFactory.class
+                                    .getClassLoader()
+                                    .getResourceAsStream(PROPERTIES));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private ConnectionFactory createConnection() {
-        String user = properties.getProperty(USER);
-        String password = properties.getProperty(PASSWORD);
-        String url = properties.getProperty(URL);
-        String driver = properties.getProperty(DRIVER);
+    protected DaoFactory() {
+    }
 
-        return new ConnectionFactoryImpl(user, password, url, driver);
+    /**
+     * Obtains an instance of {@code DaoFactory}.
+     */
+    public static synchronized DaoFactory getInstance() {
+        if (instance == null) {
+            try {
+                Class factoryClass = Class.forName(properties.getProperty(DAO_FACTORY));
+                instance = (DaoFactory) factoryClass.newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return instance;
+    }
+
+    public static void init(Properties prop) {
+        properties = prop;
+        instance = null;
+    }
+
+    protected ConnectionFactory createConnection() {
+        return new ConnectionFactoryImpl(properties);
     }
 
     /**
      * Obtains the DTO.
      */
-    public Dao getDao() throws ReflectiveOperationException {
-        Dao result = null;
-        try {
-            Class hsqldbUserDaoClass = Class.forName(properties.getProperty(HSQLDB_USER_DAO));
-            result = (Dao) hsqldbUserDaoClass.newInstance();
-            result.setConnectionFactory(createConnection());
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-            throw new ReflectiveOperationException(e);
-        }
-        return result;
-    }
+    public abstract Dao getDao() throws ReflectiveOperationException;
 }
