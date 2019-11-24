@@ -1,5 +1,7 @@
 package ua.nure.cs.sameliuk.usermanagment.gui;
 
+import ua.nure.cs.sameliuk.usermanagment.util.Message;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -40,9 +42,10 @@ public class AddPanel extends JPanel implements ActionListener {
         if (fieldPanel == null) {
             fieldPanel = new JPanel();
             fieldPanel.setLayout(new GridLayout(3, 2));
-            addLabeledField(fieldPanel, "Имя", getFirstNameField());
-            addLabeledField(fieldPanel, "Фамилия", getLastNameField());
-            addLabeledField(fieldPanel, "Дата рождения", getDateOfBirthField());
+            addLabeledField(fieldPanel, Message.getString("name_label"), getFirstNameField());
+            addLabeledField(fieldPanel, Message.getString("surname_label"), getLastNameField());
+            addLabeledField(fieldPanel, Message.getString("date.of.birth_label"),
+                            getDateOfBirthField());
         }
         return fieldPanel;
     }
@@ -71,7 +74,7 @@ public class AddPanel extends JPanel implements ActionListener {
     }
 
     private JTextField getDateOfBirthField() {
-        if(dayOfBirth == null) {
+        if (dayOfBirth == null) {
             dayOfBirth = new JTextField();
             dayOfBirth.setName(DATE_OF_BIRTH_FIELD_COMPONENT_NAME);
         }
@@ -90,7 +93,7 @@ public class AddPanel extends JPanel implements ActionListener {
     private JButton getCancelButton() {
         if (cancelButton == null) {
             cancelButton = new JButton();
-            cancelButton.setText("Отменить");//local.
+            cancelButton.setText(Message.getString("cancel_button"));
             cancelButton.setName(CANCEL_BUTTON_COMPONENT_NAME);
             cancelButton.setActionCommand(CANCEL_COMMAND);
             cancelButton.addActionListener(this);
@@ -101,7 +104,7 @@ public class AddPanel extends JPanel implements ActionListener {
     private JButton getOkButton() {
         if (okButton == null) {
             okButton = new JButton();
-            okButton.setText("Ок");//local.
+            okButton.setText(Message.getString("submit_button"));
             okButton.setName(OK_BUTTON_COMPONENT_NAME);
             okButton.setActionCommand(OK_COMMAND);
             okButton.addActionListener(this);

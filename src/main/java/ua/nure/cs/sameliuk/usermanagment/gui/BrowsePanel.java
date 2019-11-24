@@ -1,5 +1,7 @@
 package ua.nure.cs.sameliuk.usermanagment.gui;
 
+import ua.nure.cs.sameliuk.usermanagment.util.Message;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -52,7 +54,7 @@ public class BrowsePanel extends JPanel implements ActionListener {
     private JButton getDetailsButton() {
         if (detailButton == null) {
             detailButton = new JButton();
-            detailButton.setText("Подробнее");//local.
+            detailButton.setText(Message.getString("user.details_button"));
             detailButton.setName(DETAIL_BUTTON_COMPONENT_NAME);
             detailButton.setActionCommand(DETAIL_COMMAND);
             detailButton.addActionListener(this);
@@ -63,7 +65,7 @@ public class BrowsePanel extends JPanel implements ActionListener {
     private JButton getDeleteButton() {
         if (deleteButton == null) {
             deleteButton = new JButton();
-            deleteButton.setText("Удалить");//local.
+            deleteButton.setText(Message.getString("delete.user_button"));
             deleteButton.setName(DELETE_BUTTON_COMPONENT_NAME);
             deleteButton.setActionCommand(DELETE_COMMAND);
             deleteButton.addActionListener(this);
@@ -74,7 +76,7 @@ public class BrowsePanel extends JPanel implements ActionListener {
     private JButton getEditButton() {
         if (editButton == null) {
             editButton = new JButton();
-            editButton.setText("Изменить");//local.
+            editButton.setText(Message.getString("edit.user_button"));
             editButton.setName(EDIT_BUTTON_COMPONENT_NAME);
             editButton.setActionCommand(EDIT_COMMAND);
             editButton.addActionListener(this);
@@ -85,7 +87,7 @@ public class BrowsePanel extends JPanel implements ActionListener {
     private JButton getAddButton() {
         if (addButton == null) {
             addButton = new JButton();
-            addButton.setText("Добавить");//local.
+            addButton.setText(Message.getString("add.user_button"));
             addButton.setName(ADD_BUTTON_COMPONENT_NAME);
             addButton.setActionCommand(ADD_COMMAND);
             addButton.addActionListener(this);

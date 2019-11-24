@@ -1,5 +1,7 @@
 package ua.nure.cs.sameliuk.usermanagment.gui;
 
+import ua.nure.cs.sameliuk.usermanagment.util.Message;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -19,7 +21,7 @@ public class MainFrame extends JFrame {
     private void initialize() {
         this.setDefaultCloseOperation((JFrame.EXIT_ON_CLOSE));
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-        this.setTitle("Управление пользователями");// local
+        this.setTitle(Message.getString("user_management"));
         this.setContentPane(getContentPanel());
     }
 
