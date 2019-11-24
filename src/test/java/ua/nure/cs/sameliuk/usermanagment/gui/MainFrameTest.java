@@ -5,6 +5,9 @@ import junit.extensions.jfcunit.JFCTestHelper;
 import junit.extensions.jfcunit.TestHelper;
 import junit.extensions.jfcunit.finder.NamedComponentFinder;
 
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JTable;
 import java.awt.Component;
 
 public class MainFrameTest extends JFCTestCase {
@@ -33,5 +36,14 @@ public class MainFrameTest extends JFCTestCase {
         Component component = finder.find(mainFrame, 0);
         assertNotNull("Could not find component '" + name + '\'', component);
         return component;
+    }
+
+    public void testBrowseControls() {
+        find(JPanel.class, "browsePanel");
+        find(JTable.class, "userTable");
+        find(JButton.class, "addButton");
+        find(JButton.class, "editButton");
+        find(JButton.class, "deleteButton");
+        find(JButton.class, "detailsButton");
     }
 }
