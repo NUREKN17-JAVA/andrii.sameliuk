@@ -18,7 +18,7 @@ public class MainFrame extends JFrame {
     private void initialize() {
         this.setDefaultCloseOperation((JFrame.EXIT_ON_CLOSE));
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-        this.setTitle("Управление пользователями");
+        this.setTitle("Управление пользователями");// local
         this.setContentPane(getContentPanel());
     }
 

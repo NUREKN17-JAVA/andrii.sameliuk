@@ -3,12 +3,11 @@ package ua.nure.cs.sameliuk.usermanagment.gui;
 import junit.extensions.jfcunit.JFCTestCase;
 import junit.extensions.jfcunit.JFCTestHelper;
 import junit.extensions.jfcunit.TestHelper;
+import junit.extensions.jfcunit.eventdata.MouseEventData;
 import junit.extensions.jfcunit.finder.NamedComponentFinder;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import java.awt.Component;
+import javax.swing.*;
+import java.awt.*;
 
 public class MainFrameTest extends JFCTestCase {
 
@@ -51,5 +50,18 @@ public class MainFrameTest extends JFCTestCase {
         find(JButton.class, EDIT_BUTTON_COMPONENT_NAME);
         find(JButton.class, DELETE_BUTTON_COMPONENT_NAME);
         find(JButton.class, DETAIL_BUTTON_COMPONENT_NAME);
+    }
+
+    public void testAddUser() {
+        JButton addButton = (JButton) find(JButton.class, ADD_BUTTON_COMPONENT_NAME);
+        getHelper().enterClickAndLeave(new MouseEventData(this, addButton));
+
+        find(JPanel.class, "addPanel");
+
+        find(JTextField.class, "firstNameField");
+        find(JTextField.class, "lastNameField");
+        find(JTextField.class, "dateOfBirthField");
+        find(JButton.class, "okButton");
+        find(JButton.class, "cancelButton");
     }
 }
