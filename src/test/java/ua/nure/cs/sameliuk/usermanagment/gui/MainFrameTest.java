@@ -12,6 +12,12 @@ import java.awt.Component;
 
 public class MainFrameTest extends JFCTestCase {
 
+    private static final String BROWSE_PANEL_COMPONENT_NAME = "browsePanel";
+    private static final String USER_TABLE_COMPONENT_NAME = "userTable";
+    private static final String ADD_BUTTON_COMPONENT_NAME = "addButton";
+    private static final String EDIT_BUTTON_COMPONENT_NAME = "editButton";
+    private static final String DELETE_BUTTON_COMPONENT_NAME = "deleteButton";
+    private static final String DETAILS_BUTTON_COMPONENT_NAME = "detailsButton";
     private MainFrame mainFrame;
 
     @Override
@@ -39,11 +45,11 @@ public class MainFrameTest extends JFCTestCase {
     }
 
     public void testBrowseControls() {
-        find(JPanel.class, "browsePanel");
-        find(JTable.class, "userTable");
-        find(JButton.class, "addButton");
-        find(JButton.class, "editButton");
-        find(JButton.class, "deleteButton");
-        find(JButton.class, "detailsButton");
+        find(JPanel.class, BROWSE_PANEL_COMPONENT_NAME);
+        find(JTable.class, USER_TABLE_COMPONENT_NAME);
+        find(JButton.class, ADD_BUTTON_COMPONENT_NAME);
+        find(JButton.class, EDIT_BUTTON_COMPONENT_NAME);
+        find(JButton.class, DELETE_BUTTON_COMPONENT_NAME);
+        find(JButton.class, DETAILS_BUTTON_COMPONENT_NAME);
     }
 }
