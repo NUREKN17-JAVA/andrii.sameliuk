@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_usermanagment" default="compile.module.usermanagment">
+  <dirname property="module.usermanagment.basedir" file="${ant.file.module_usermanagment}"/>
+  
+  <property name="module.jdk.home.usermanagment" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.usermanagment" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.usermanagment" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.usermanagment" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="usermanagment.output.dir" value="${module.usermanagment.basedir}/out/production/UserManagment"/>
+  <property name="usermanagment.testoutput.dir" value="${module.usermanagment.basedir}/out/test/UserManagment"/>
+  
+  <path id="usermanagment.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="usermanagment.module.production.classpath">
+    <path refid="${module.jdk.classpath.usermanagment}"/>
+  </path>
+  
+  <path id="usermanagment.runtime.production.module.classpath">
+    <pathelement location="${usermanagment.output.dir}"/>
+  </path>
+  
+  <path id="usermanagment.module.classpath">
+    <path refid="${module.jdk.classpath.usermanagment}"/>
+    <pathelement location="${usermanagment.output.dir}"/>
+  </path>
+  
+  <path id="usermanagment.runtime.module.classpath">
+    <pathelement location="${usermanagment.testoutput.dir}"/>
+    <pathelement location="${usermanagment.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.usermanagment">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.usermanagment">
+    <patternset refid="excluded.from.module.usermanagment"/>
+  </patternset>
+  
+  <path id="usermanagment.module.sourcepath">
+    <dirset dir="${module.usermanagment.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+    </dirset>
+  </path>
+  
+  <path id="usermanagment.module.test.sourcepath">
+    <dirset dir="${module.usermanagment.basedir}">
+      <include name="src/test/java"/>
+      <include name="src/test/resources"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.usermanagment" depends="compile.module.usermanagment.production,compile.module.usermanagment.tests" description="Compile module UserManagment"/>
+  
+  <target name="compile.module.usermanagment.production" depends="register.custom.compilers" description="Compile module UserManagment; production classes">
+    <mkdir dir="${usermanagment.output.dir}"/>
+    <javac2 destdir="${usermanagment.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.usermanagment}/javac">
+      <compilerarg line="${compiler.args.usermanagment}"/>
+      <bootclasspath refid="usermanagment.module.bootclasspath"/>
+      <classpath refid="usermanagment.module.production.classpath"/>
+      <src refid="usermanagment.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.usermanagment"/>
+    </javac2>
+    
+    <copy todir="${usermanagment.output.dir}">
+      <fileset dir="${module.usermanagment.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.usermanagment.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.usermanagment.tests" depends="register.custom.compilers,compile.module.usermanagment.production" description="compile module UserManagment; test classes" unless="skip.tests">
+    <mkdir dir="${usermanagment.testoutput.dir}"/>
+    <javac2 destdir="${usermanagment.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.usermanagment}/javac">
+      <compilerarg line="${compiler.args.usermanagment}"/>
+      <bootclasspath refid="usermanagment.module.bootclasspath"/>
+      <classpath refid="usermanagment.module.classpath"/>
+      <src refid="usermanagment.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.usermanagment"/>
+    </javac2>
+    
+    <copy todir="${usermanagment.testoutput.dir}">
+      <fileset dir="${module.usermanagment.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.usermanagment.basedir}/src/test/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.usermanagment" description="cleanup module">
+    <delete dir="${usermanagment.output.dir}"/>
+    <delete dir="${usermanagment.testoutput.dir}"/>
+  </target>
+</project>
