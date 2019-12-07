@@ -1,9 +1,0 @@
-Testsuite: ua.nure.cs.sameliuk.usermanagment.domain.UserTest
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 sec
-
-Testcase: testTestAge took 0.012 sec
-Testcase: testGetFullName took 0 sec
-Testcase: testGetAge1 took 0 sec
-Testcase: testGetAge2 took 0 sec
-Testcase: testGetAge3 took 0 sec
-Testcase: testGetAge4 took 0 sec
