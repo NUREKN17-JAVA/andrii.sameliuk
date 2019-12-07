@@ -1,11 +1,15 @@
 package ua.nure.cs.sameliuk.usermanagment.gui;
 
+import ua.nure.cs.sameliuk.usermanagment.db.DataBaseException;
+import ua.nure.cs.sameliuk.usermanagment.domain.User;
 import ua.nure.cs.sameliuk.usermanagment.util.Message;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
 
 public class AddPanel extends JPanel implements ActionListener {
 
@@ -114,7 +118,41 @@ public class AddPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if ("ok".equalsIgnoreCase(e.getActionCommand())) {
+            User user = new User();
+            user.setFirstName(getFirstNameField().getText());
+            user.setLastName(getLastNameField().getText());
+
+            DateFormat format = DateFormat.getDateInstance();
+            try {
+                user.setDateOfBirth(format.parse(getDateOfBirthField().getText()));
+            } catch (ParseException ex) {
+                getDateOfBirthField().setBackground(Color.RED);
+                return;
+            }
+
+            try {
+                parent.getDao()
+                      .create(user);
+            } catch (DataBaseException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error",
+                                              JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+        clearFields();
         this.setVisible(false);
         parent.showBrowsePanel();
+    }
+
+    private void clearFields() {
+        getFirstNameField().setText("");
+        getFirstNameField().setBackground(Color.WHITE);
+
+        getLastNameField().setText("");
+        getLastNameField().setBackground(Color.WHITE);
+
+        getDateOfBirthField().setText("");
+        getDateOfBirthField().setBackground(Color.WHITE);
     }
 }

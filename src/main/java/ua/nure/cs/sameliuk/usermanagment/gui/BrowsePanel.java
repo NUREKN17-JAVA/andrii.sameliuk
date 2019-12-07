@@ -1,5 +1,6 @@
 package ua.nure.cs.sameliuk.usermanagment.gui;
 
+import ua.nure.cs.sameliuk.usermanagment.db.DataBaseException;
 import ua.nure.cs.sameliuk.usermanagment.util.Message;
 
 import javax.swing.*;
@@ -107,16 +108,27 @@ public class BrowsePanel extends JPanel implements ActionListener {
         if (userTable == null) {
             userTable = new JTable();
             userTable.setName(USER_TABLE_COMPONENT_NAME);
-            UserTableModel tableModel = new UserTableModel(new ArrayList());
-            userTable.setModel(tableModel);
         }
         return userTable;
+    }
+
+    public void initTable() {
+        UserTableModel tableModel;
+
+        try {
+            tableModel = new UserTableModel(parent.getDao()
+                                                  .findAll());
+        } catch (DataBaseException e) {
+            tableModel = new UserTableModel(new ArrayList());
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        getUserTable().setModel(tableModel);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         String actionCommand = e.getActionCommand();
-        if(ADD_COMMAND.equalsIgnoreCase(actionCommand)) {
+        if (ADD_COMMAND.equalsIgnoreCase(actionCommand)) {
             this.setVisible(false);
             parent.showAddPanel();
         }

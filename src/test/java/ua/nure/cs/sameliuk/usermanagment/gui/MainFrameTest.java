@@ -32,7 +32,7 @@ public class MainFrameTest extends JFCTestCase {
         super.setUp();
 
         Properties properties = new Properties();
-        properties.setProperty("ua.nure.cs.sameliuk.usermanagment.db.HsqldbUserDao",
+        properties.setProperty("dao.UserDao",
                                MockUserDao.class.getName());
         properties.setProperty("dao.factory", DaoFactoryImpl.class.getName());
 

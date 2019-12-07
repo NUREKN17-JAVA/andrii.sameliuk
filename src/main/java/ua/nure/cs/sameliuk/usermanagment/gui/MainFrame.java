@@ -1,5 +1,7 @@
 package ua.nure.cs.sameliuk.usermanagment.gui;
 
+import ua.nure.cs.sameliuk.usermanagment.db.Dao;
+import ua.nure.cs.sameliuk.usermanagment.db.DaoFactory;
 import ua.nure.cs.sameliuk.usermanagment.util.Message;
 
 import javax.swing.*;
@@ -12,9 +14,11 @@ public class MainFrame extends JFrame {
     private JPanel contentPanel;
     private JPanel browsePanel;
     private AddPanel addPanel;
+    private Dao dao;
 
-    public MainFrame() {
+    public MainFrame() throws ReflectiveOperationException {
         super();
+        dao = DaoFactory.getInstance().getDao();
         initialize();
     }
 
@@ -39,10 +43,12 @@ public class MainFrame extends JFrame {
         if (browsePanel == null) {
             browsePanel = new BrowsePanel(this);
         }
+
+        ((BrowsePanel) browsePanel).initTable();
         return browsePanel;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ReflectiveOperationException {
         MainFrame mainFrame = new MainFrame();
         mainFrame.setVisible(true);
     }
@@ -66,5 +72,9 @@ public class MainFrame extends JFrame {
             addPanel = new AddPanel(this);
         }
         return addPanel;
+    }
+
+    public Dao getDao() {
+        return dao;
     }
 }
