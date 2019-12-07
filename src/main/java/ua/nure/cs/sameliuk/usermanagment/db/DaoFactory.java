@@ -59,5 +59,5 @@ public abstract class DaoFactory {
     /**
      * Obtains the DTO.
      */
-    public abstract Dao getDao() throws ReflectiveOperationException;
+    public abstract UserDao getDao() throws ReflectiveOperationException;
 }

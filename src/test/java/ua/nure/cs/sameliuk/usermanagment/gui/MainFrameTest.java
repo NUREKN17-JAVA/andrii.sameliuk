@@ -1,5 +1,6 @@
 package ua.nure.cs.sameliuk.usermanagment.gui;
 
+import com.mockobjects.dynamic.Mock;
 import junit.extensions.jfcunit.JFCTestCase;
 import junit.extensions.jfcunit.JFCTestHelper;
 import junit.extensions.jfcunit.TestHelper;
@@ -7,13 +8,13 @@ import junit.extensions.jfcunit.eventdata.MouseEventData;
 import junit.extensions.jfcunit.eventdata.StringEventData;
 import junit.extensions.jfcunit.finder.NamedComponentFinder;
 import ua.nure.cs.sameliuk.usermanagment.db.DaoFactory;
-import ua.nure.cs.sameliuk.usermanagment.db.DaoFactoryImpl;
-import ua.nure.cs.sameliuk.usermanagment.db.MockUserDao;
+import ua.nure.cs.sameliuk.usermanagment.db.MockDaoFactory;
 import ua.nure.cs.sameliuk.usermanagment.util.Message;
 
 import javax.swing.*;
 import java.awt.*;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
 
@@ -27,17 +28,22 @@ public class MainFrameTest extends JFCTestCase {
     private static final String DETAIL_BUTTON_COMPONENT_NAME = "detailButton";
     private MainFrame mainFrame;
 
+    private Mock mockUserDao;
+
     @Override
     public void setUp() throws Exception {
         super.setUp();
 
         Properties properties = new Properties();
-        properties.setProperty("dao.UserDao",
+      /*  properties.setProperty("dao.UserDao",
                                MockUserDao.class.getName());
-        properties.setProperty("dao.factory", DaoFactoryImpl.class.getName());
+      */
+        properties.setProperty("dao.factory", MockDaoFactory.class.getName());
 
         DaoFactory.init(properties);
+        mockUserDao = ((MockDaoFactory) DaoFactory.getInstance()).getMockUserDao();
 
+        mockUserDao.expectAndReturn("findAll", new ArrayList());
         setHelper(new JFCTestHelper());
         mainFrame = new MainFrame();
         mainFrame.setVisible(true);
@@ -45,9 +51,14 @@ public class MainFrameTest extends JFCTestCase {
 
     @Override
     public void tearDown() throws Exception {
-        mainFrame.setVisible(false);
-        TestHelper.cleanUp(this);
-        super.tearDown();
+        try {
+            mockUserDao.verify();
+            mainFrame.setVisible(false);
+            TestHelper.cleanUp(this);
+            super.tearDown();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private Component find(Class componentClass, String name) {

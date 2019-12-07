@@ -151,7 +151,7 @@ public class EditPanel extends JPanel implements ActionListener {
                 }
 
                 try {
-                    parent.getDao()
+                    parent.getUserDao()
                           .update(user);
                 } catch (DataBaseException e1) {
                     JOptionPane.showMessageDialog(this, e1.getMessage(), "Error",

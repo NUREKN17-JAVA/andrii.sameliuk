@@ -132,7 +132,7 @@ public class AddPanel extends JPanel implements ActionListener {
             }
 
             try {
-                parent.getDao()
+                parent.getUserDao()
                       .create(user);
             } catch (DataBaseException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error",

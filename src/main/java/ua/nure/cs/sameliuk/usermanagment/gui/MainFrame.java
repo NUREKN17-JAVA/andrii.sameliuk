@@ -1,6 +1,6 @@
 package ua.nure.cs.sameliuk.usermanagment.gui;
 
-import ua.nure.cs.sameliuk.usermanagment.db.Dao;
+import ua.nure.cs.sameliuk.usermanagment.db.UserDao;
 import ua.nure.cs.sameliuk.usermanagment.db.DaoFactory;
 import ua.nure.cs.sameliuk.usermanagment.domain.User;
 import ua.nure.cs.sameliuk.usermanagment.util.Message;
@@ -15,12 +15,12 @@ public class MainFrame extends JFrame {
     private JPanel contentPanel;
     private JPanel browsePanel;
     private AddPanel addPanel;
-    private Dao dao;
+    private UserDao userDao;
     private EditPanel editPanel;
 
     public MainFrame() throws ReflectiveOperationException {
         super();
-        dao = DaoFactory.getInstance().getDao();
+        userDao = DaoFactory.getInstance().getDao();
         initialize();
     }
 
@@ -76,8 +76,8 @@ public class MainFrame extends JFrame {
         return addPanel;
     }
 
-    public Dao getDao() {
-        return dao;
+    public UserDao getUserDao() {
+        return userDao;
     }
 
     public void showEditPanel() {

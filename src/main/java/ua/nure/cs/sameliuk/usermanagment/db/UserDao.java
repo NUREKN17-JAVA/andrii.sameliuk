@@ -1,5 +1,7 @@
 package ua.nure.cs.sameliuk.usermanagment.db;
 
+import ua.nure.cs.sameliuk.usermanagment.domain.User;
+
 import java.util.Collection;
 
 /**
@@ -8,7 +10,7 @@ import java.util.Collection;
  * @param <T>
  *         a bean class DTO of which needs to create
  */
-public interface Dao<T> {
+public interface UserDao {
 
     /**
      * Creates a bean object.
@@ -16,7 +18,7 @@ public interface Dao<T> {
      * @param entity
      *         an object which needs to create
      */
-    T create(T entity) throws DataBaseException;
+    User create(User entity) throws DataBaseException;
 
     /**
      * Updates a bean object.
@@ -24,7 +26,7 @@ public interface Dao<T> {
      * @param entity
      *         an object which needs to update
      */
-    void update(T entity) throws DataBaseException;
+    void update(User entity) throws DataBaseException;
 
     /**
      * Deletes bean object.
@@ -32,7 +34,7 @@ public interface Dao<T> {
      * @param entity
      *         an object which needs to update
      */
-    void delete(T entity) throws DataBaseException;
+    void delete(User entity) throws DataBaseException;
 
     /**
      * Finds an object in the database by its ID.
@@ -40,12 +42,12 @@ public interface Dao<T> {
      * @param id
      *         an identifier of object in database
      */
-    T find(Long id) throws DataBaseException;
+    User find(Long id) throws DataBaseException;
 
     /**
      * Obtains all elements from database.
      */
-    Collection<T> findAll() throws DataBaseException;
+    Collection<User> findAll() throws DataBaseException;
 
     /**
      * Sets {@link ConnectionFactory}.

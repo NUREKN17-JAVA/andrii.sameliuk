@@ -117,7 +117,7 @@ public class BrowsePanel extends JPanel implements ActionListener {
         UserTableModel tableModel;
 
         try {
-            tableModel = new UserTableModel(parent.getDao()
+            tableModel = new UserTableModel(parent.getUserDao()
                                                   .findAll());
         } catch (DataBaseException e) {
             tableModel = new UserTableModel(new ArrayList());
@@ -139,7 +139,7 @@ public class BrowsePanel extends JPanel implements ActionListener {
         } else {
             try {
                 userId = (Long) userTable.getValueAt(userTable.getSelectedRow(), selectedColumn);
-                user = (User) parent.getDao()
+                user = (User) parent.getUserDao()
                                     .find(userId);
             } catch (DataBaseException e) {
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Error",
@@ -159,9 +159,9 @@ public class BrowsePanel extends JPanel implements ActionListener {
 
         if (result == JOptionPane.YES_OPTION) {
             try {
-                parent.getDao()
+                parent.getUserDao()
                       .delete(user);
-                getUserTable().setModel(new UserTableModel(parent.getDao()
+                getUserTable().setModel(new UserTableModel(parent.getUserDao()
                                                                  .findAll()));
             } catch (DataBaseException e1) {
                 JOptionPane.showMessageDialog(this, e1.getMessage(), "Error",
