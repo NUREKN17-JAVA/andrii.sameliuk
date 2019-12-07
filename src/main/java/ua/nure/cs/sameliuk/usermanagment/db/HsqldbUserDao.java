@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * An implementation of {@link Dao} for {link User} bean.
+ * An implementation of {@link UserDao} for {link User} bean.
  */
-class HsqldbUserDao implements Dao<User> {
+public class HsqldbUserDao implements UserDao {
 
     private ConnectionFactory connectionFactory;
 

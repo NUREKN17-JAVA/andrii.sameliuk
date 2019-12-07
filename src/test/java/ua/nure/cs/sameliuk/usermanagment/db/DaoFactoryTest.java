@@ -7,9 +7,9 @@ public class DaoFactoryTest extends TestCase {
     public void testUserDao() {
         try {
             DaoFactory daoFactory = DaoFactory.getInstance();
-            assertNotNull("Dao factory instance is null", daoFactory);
-            Dao dao = daoFactory.getDao();
-            assertNotNull("UserDao instance is null", dao);
+            assertNotNull("UserDao factory instance is null", daoFactory);
+            UserDao userDao = daoFactory.getDao();
+            assertNotNull("UserDao instance is null", userDao);
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
             fail(e.toString());
