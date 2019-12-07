@@ -118,7 +118,7 @@ public class AddPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if ("ok".equalsIgnoreCase(e.getActionCommand())) {
+        if (OK_COMMAND.equalsIgnoreCase(e.getActionCommand())) {
             User user = new User();
             user.setFirstName(getFirstNameField().getText());
             user.setLastName(getLastNameField().getText());

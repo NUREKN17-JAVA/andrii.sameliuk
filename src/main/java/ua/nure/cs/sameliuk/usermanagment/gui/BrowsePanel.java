@@ -1,6 +1,7 @@
 package ua.nure.cs.sameliuk.usermanagment.gui;
 
 import ua.nure.cs.sameliuk.usermanagment.db.DataBaseException;
+import ua.nure.cs.sameliuk.usermanagment.domain.User;
 import ua.nure.cs.sameliuk.usermanagment.util.Message;
 
 import javax.swing.*;
@@ -125,12 +126,79 @@ public class BrowsePanel extends JPanel implements ActionListener {
         getUserTable().setModel(tableModel);
     }
 
+    public User getSelectedUser() {
+        int selectedRow = getUserTable().getSelectedRow();
+        int selectedColumn = 0;
+
+        Long userId = null;
+        User user = null;
+
+        if (selectedRow == -1) {
+            String message = "Please, select row of user, details of whom you want to see";
+            JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                userId = (Long) userTable.getValueAt(userTable.getSelectedRow(), selectedColumn);
+                user = (User) parent.getDao()
+                                    .find(userId);
+            } catch (DataBaseException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error",
+                                              JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return user;
+    }
+
+    private void deleteUser(User user) {
+        String message = "Are you sure you want to delete this user?";
+        int result = JOptionPane.showConfirmDialog(this,
+                                                   message,
+                                                   "Confirm deleting",
+                                                   JOptionPane.YES_NO_OPTION,
+                                                   JOptionPane.WARNING_MESSAGE);
+
+        if (result == JOptionPane.YES_OPTION) {
+            try {
+                parent.getDao()
+                      .delete(user);
+                getUserTable().setModel(new UserTableModel(parent.getDao()
+                                                                 .findAll()));
+            } catch (DataBaseException e1) {
+                JOptionPane.showMessageDialog(this, e1.getMessage(), "Error",
+                                              JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String actionCommand = e.getActionCommand();
         if (ADD_COMMAND.equalsIgnoreCase(actionCommand)) {
             this.setVisible(false);
             parent.showAddPanel();
+        } else if (DETAIL_COMMAND.equalsIgnoreCase(actionCommand)) {
+            User selectedUser = getSelectedUser();
+            JOptionPane.showMessageDialog(this, selectedUser.toString(), "User info",
+                                          JOptionPane.INFORMATION_MESSAGE);
+        } else if (DELETE_COMMAND.equalsIgnoreCase(actionCommand)) {
+            User selectedUser = getSelectedUser();
+
+            if (selectedUser != null) {
+                deleteUser(selectedUser);
+            }
+
+        } else if (EDIT_COMMAND.equalsIgnoreCase(actionCommand)) {
+            int selectedRow = userTable.getSelectedRow();
+            int selectedColumn = userTable.getSelectedColumn();
+
+            if (selectedRow != -1 || selectedColumn != -1) {
+                this.setVisible(false);
+                parent.showEditPanel();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                                              "Please, select row of user, details of whom you want to see",
+                                              "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 }
