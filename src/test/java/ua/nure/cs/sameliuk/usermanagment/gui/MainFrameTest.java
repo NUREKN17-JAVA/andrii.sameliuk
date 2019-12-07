@@ -34,7 +34,6 @@ public class MainFrameTest extends JFCTestCase {
     @Override
     public void tearDown() throws Exception {
         mainFrame.setVisible(false);
-//        getHelper();
         TestHelper.cleanUp(this);
         super.tearDown();
     }
