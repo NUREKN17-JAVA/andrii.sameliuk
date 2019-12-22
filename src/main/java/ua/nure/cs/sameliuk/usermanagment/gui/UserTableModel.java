@@ -57,4 +57,12 @@ public class UserTableModel extends AbstractTableModel {
                 throw new IllegalStateException("Unexpected value: " + columnIndex);
         }
     }
+
+    public void addUsers(Collection<User> users) {
+        this.users.addAll(users);
+    }
+
+    public void clearUsers() {
+        this.users = new ArrayList();
+    }
 }
