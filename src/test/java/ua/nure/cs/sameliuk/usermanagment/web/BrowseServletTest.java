@@ -7,9 +7,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertSame;
-
 public class BrowseServletTest extends MockServletTestCase {
 
     @Override

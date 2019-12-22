@@ -8,6 +8,7 @@ import ua.nure.cs.sameliuk.usermanagment.db.MockDaoFactory;
 import java.util.Properties;
 
 public abstract class MockServletTestCase extends BasicServletTestCaseAdapter {
+
     private Mock mockUserDao;
 
     public Mock getMockUserDao() {

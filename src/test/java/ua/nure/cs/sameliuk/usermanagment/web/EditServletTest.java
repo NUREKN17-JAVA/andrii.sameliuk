@@ -4,8 +4,6 @@ import ua.nure.cs.sameliuk.usermanagment.domain.User;
 
 import java.util.Date;
 
-import static junit.framework.Assert.assertNotNull;
-
 public class EditServletTest extends MockServletTestCase {
 
     @Override
@@ -32,7 +30,8 @@ public class EditServletTest extends MockServletTestCase {
         addRequestParameter("date", String.valueOf(new Date()));
         addRequestParameter("okButton", "Ok");
         doPost();
-        String errorMessage = (String) getWebMockObjectFactory().getMockRequest().getAttribute("error");
+        String errorMessage = (String) getWebMockObjectFactory().getMockRequest()
+                                                                .getAttribute("error");
         assertNotNull("Could not find error message in session scope", errorMessage);
     }
 
@@ -42,7 +41,8 @@ public class EditServletTest extends MockServletTestCase {
         addRequestParameter("date", String.valueOf(new Date()));
         addRequestParameter("okButton", "Ok");
         doPost();
-        String errorMessage = (String) getWebMockObjectFactory().getMockRequest().getAttribute("error");
+        String errorMessage = (String) getWebMockObjectFactory().getMockRequest()
+                                                                .getAttribute("error");
         assertNotNull("Could not find error message in session scope", errorMessage);
     }
 
@@ -52,7 +52,8 @@ public class EditServletTest extends MockServletTestCase {
         addRequestParameter("lastName", "Doe");
         addRequestParameter("okButton", "Ok");
         doPost();
-        String errorMessage = (String) getWebMockObjectFactory().getMockRequest().getAttribute("error");
+        String errorMessage = (String) getWebMockObjectFactory().getMockRequest()
+                                                                .getAttribute("error");
         assertNotNull("Could not find error message in session scope", errorMessage);
     }
 
@@ -63,7 +64,8 @@ public class EditServletTest extends MockServletTestCase {
         addRequestParameter("date", "123456789");
         addRequestParameter("okButton", "Ok");
         doPost();
-        String errorMessage = (String) getWebMockObjectFactory().getMockRequest().getAttribute("error");
+        String errorMessage = (String) getWebMockObjectFactory().getMockRequest()
+                                                                .getAttribute("error");
         assertNotNull("Could not find error message in session scope", errorMessage);
     }
 }
