@@ -49,6 +49,8 @@ public interface UserDao {
      */
     Collection<User> findAll() throws DataBaseException;
 
+    Collection find (String firstName, String lastName) throws DataBaseException;
+
     /**
      * Sets {@link ConnectionFactory}.
      */

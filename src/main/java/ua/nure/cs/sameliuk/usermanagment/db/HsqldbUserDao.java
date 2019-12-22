@@ -33,6 +33,9 @@ public class HsqldbUserDao implements UserDao {
     private final String UPDATE_USER
             = "UPDATE USERS SET firstname = ?, lastname = ?, dateofbirth = ? WHERE id = ?";
 
+    private static final String FIND_BY_FIRS_AND_LAST
+            = "SELECT id, firstname, lastname, dateofbirth FROM USERS WHERE firstname = ? AND lastname = ?";
+
     public HsqldbUserDao() {
     }
 
@@ -166,6 +169,37 @@ public class HsqldbUserDao implements UserDao {
             throw e;
         } catch (SQLException e) {
             throw new DataBaseException(e);
+        }
+
+        return result;
+    }
+
+    @Override
+    public Collection find(String firstName, String lastName) throws DataBaseException {
+        Collection<User> result = new ArrayList<>();
+
+        try {
+            Connection connection = connectionFactory.createConnection();
+            PreparedStatement statement = connection.prepareStatement(FIND_BY_FIRS_AND_LAST);
+            statement.setString(1, firstName);
+            statement.setString(2, lastName);
+            ResultSet usersResultSet = statement.executeQuery();
+
+            while (usersResultSet.next()) {
+                User user = new User();
+                user.setId(usersResultSet.getLong(1));
+                user.setFirstName(usersResultSet.getString(2));
+                user.setLastName(usersResultSet.getString(3));
+                Date date = usersResultSet.getDate(4);
+                user.setDateOfBirth(date);
+                result.add(user);
+            }
+
+            connection.close();
+            statement.close();
+            usersResultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return result;
