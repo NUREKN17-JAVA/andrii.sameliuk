@@ -3,8 +3,8 @@
     <property name="classes-dir" value="${built-dir}/classes"/>
     <property name="main-dir" value="${basedir}/src/main/java"/>
     <property name="test-java-dir" value="${basedir}/src/test/java"/>
-    <property name="web-dir" value="${basedir}/web"/>
-    <property name="web-inf-dir" value="${web-dir}/WEB-INF"/>
+    <property name="web-dir" value="/src/main/web"/>
+    <property name="web-inf-dir" value="/src/main/web/WEB-INF"/>
     <property name="main-resources-dir" value="${basedir}/src/main/resources"/>
 
     <property name="war-name" value="users"/>
@@ -32,7 +32,7 @@
 
     <target name="war.exploded" depends="compile">
         <copy todir="${war-jsp-dir}">
-            <fileset dir="${web-dir}"/>
+            <fileset dir="/src/main/web"/>
         </copy>
 
         <copy todir="${war-lib-dir}">
